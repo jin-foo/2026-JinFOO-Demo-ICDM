@@ -1,0 +1,198 @@
+% Four-column SILK path (grayscale, IEEE print). Designed at native \textwidth
+% (516pt = 181.4mm); total width below is 180.6mm, so no \resizebox is needed.
+% Panel (d) is the explorer lock, not a symbolic decision-list rule.
+% Note: never name a style "step" (pgfkeys reserved) -- eyebrow style is "eyeb".
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  pan/.style={
+    draw=black!42, fill=white, rounded corners=1.2pt,
+    line width=0.35pt, inner sep=0pt, anchor=north west
+  },
+  eyeb/.style={font=\sffamily\fontsize{5.4}{6.0}\selectfont\bfseries, text=labgray},
+  hd/.style={font=\sffamily\fontsize{7.4}{8.4}\selectfont\bfseries, text=black},
+  gl/.style={font=\fontsize{6.4}{7.4}\selectfont, text=labgray, align=left},
+  micro/.style={font=\sffamily\fontsize{5.4}{6.0}\selectfont\bfseries, text=labgray},
+  microk/.style={micro, text=black},
+  cell/.style={
+    draw=black!45, minimum width=5.2mm, minimum height=4.8mm, inner sep=0pt,
+    font=\sffamily\fontsize{6.2}{6.6}\selectfont\bfseries, line width=0.35pt
+  },
+  hit/.style={cell, fill=fillkey, draw=black!70},
+  miss/.style={cell, fill=white},
+  % 5.6pt keeps the longest real token (T4:L149) inside a 9.4mm chip, so the
+  % 10mm chip pitch still leaves a visible gutter between neighbours.
+  chip/.style={
+    draw=black!35, fill=fillbox, rounded corners=0.7pt,
+    minimum width=9.4mm, minimum height=3.8mm, inner sep=0pt,
+    font=\sffamily\fontsize{5.6}{6.0}\selectfont, line width=0.3pt
+  },
+  chipk/.style={chip, fill=black, draw=black, text=white},
+  % explicit \fontsize fixes the node baselineskip; otherwise the card
+  % inherits the 10/12pt body leading and grows past the bucket.
+  card/.style={
+    draw=black!45, fill=white, rounded corners=0.8pt, anchor=north west,
+    inner sep=0.9mm, text width=32.6mm, align=left, line width=0.35pt,
+    font=\fontsize{5.6}{6.6}\selectfont
+  },
+  cardq/.style={card, fill=fillkey, draw=black!70, line width=0.5pt},
+  rowlab/.style={font=\fontsize{6.2}{7.0}\selectfont, anchor=west}
+]
+
+\def\PH{54}      % panel height (mm)
+\def\GY{-51.8}   % gloss baseline (anchor south west) inside each panel
+\def\AX{0}    \def\AW{38.6}
+\def\BX{41.6} \def\BW{48.2}
+\def\CX{92.8} \def\CW{43.0}
+\def\DX{138.8}\def\DW{41.8}
+
+% ---------- panel shells + top rules ----------
+\node[pan, minimum width=\AW mm, minimum height=\PH mm] (A) at (\AX,0) {};
+\node[pan, minimum width=\BW mm, minimum height=\PH mm] (B) at (\BX,0) {};
+\node[pan, minimum width=\CW mm, minimum height=\PH mm] (C) at (\CX,0) {};
+\node[pan, minimum width=\DW mm, minimum height=\PH mm] (D) at (\DX,0) {};
+\foreach \n in {A,B,C,D}{%
+  \draw[black, line width=0.9pt] ([xshift=0.3mm]\n.north west) -- ([xshift=-0.3mm]\n.north east);}
+
+% ---------- flow chevrons in the gutters ----------
+\foreach \gx in {39.3, 90.5, 136.5}{%
+  \fill[linegray] (\gx,-26.0) -- (\gx,-28.0) -- (\gx+1.8,-27.0) -- cycle;}
+
+% =========================== (a) leaf set ===========================
+\begin{scope}[shift={(\AX,0)}]
+  \node[eyeb, anchor=north west] at (2.4,-2.0) {01 $\cdot$ LEAF SET};
+  \node[hd, anchor=north west]   at (2.4,-5.6) {$\Phi(q)$ is $t{=}200$ leaves};
+
+  % --- isolation tree: one dark root-to-leaf path, rest light ---
+  \draw[black!35, line width=0.45pt] (19.0,-13.2) -- (26.6,-19.2);
+  \draw[black!35, line width=0.45pt] (12.0,-19.2) -- (8.0,-25.4);
+  \draw[black!35, line width=0.45pt] (26.6,-19.2) -- (22.6,-25.4);
+  \draw[black!35, line width=0.45pt] (26.6,-19.2) -- (30.6,-25.4);
+  \draw[black, line width=0.95pt]    (19.0,-13.2) -- (12.0,-19.2);
+  \draw[black, line width=0.95pt]    (12.0,-19.2) -- (16.0,-25.4);
+  % hollow leaves
+  \foreach \lx in {8.0, 22.6, 30.6}{%
+    \draw[fill=white, draw=black!45, line width=0.35pt]
+      (\lx-1.25,-27.85) rectangle (\lx+1.25,-25.35);}
+  % selected leaf
+  \draw[fill=black, draw=black, line width=0.35pt]
+    (14.75,-27.85) rectangle (17.25,-25.35);
+  % internal nodes
+  \draw[fill=white, draw=black!45, line width=0.35pt] (26.6,-19.2) circle (0.85mm);
+  \fill[black] (19.0,-13.2) circle (0.95mm);
+  \fill[black] (12.0,-19.2) circle (0.95mm);
+
+  \node[micro, anchor=north] at (19.0,-29.6) {ONE TREE $\cdot$ ONE PATH $\cdot$ ONE LEAF};
+
+  % --- leaf-id chips: Phi(q) is a set of namespaced leaves ---
+  % Real fingerprint sample of the mechanism seed (id 2656); the filled chip is
+  % the leaf hovered in Fig. 3.
+  \node[chipk] at (7.4,-34.8) {T0:L69};
+  \node[chip]  at (17.4,-34.8) {T1:L121};
+  \node[chip]  at (27.4,-34.8) {T2:L86};
+  \node[chip]  at (7.4,-39.4) {T3:L16};
+  \node[chip]  at (17.4,-39.4) {T4:L149};
+  \node[chip, minimum width=5.6mm] at (24.8,-39.4) {$\ldots$};
+
+  \node[gl, anchor=south west, text width=33.8mm] at (2.4,\GY)
+    {Hashed as a \emph{set}, not an embedding vector.};
+\end{scope}
+
+% ======================= (b) MinHash + LSH =========================
+\begin{scope}[shift={(\BX,0)}]
+  \node[eyeb, anchor=north west] at (2.4,-2.0) {02 $\cdot$ MINHASH + LSH};
+  \node[hd, anchor=north west]   at (2.4,-5.6) {One matching band retrieves};
+  \node[gl, anchor=north west, text width=43.0mm] at (2.4,-9.4)
+    {A whole band of $r{=}3$ rows must match to admit a candidate.};
+
+  \node[microk, anchor=south] at (16.5,-19.4) {BAND 1};
+  \node[micro,  anchor=south] at (36.5,-19.4) {BAND 2};
+
+  % band frames: the grouping unit, not six loose cells
+  \draw[black, line width=0.85pt, rounded corners=0.6pt]
+    (7.4,-22.3) rectangle (25.6,-34.9);
+  \draw[black!40, line width=0.4pt, rounded corners=0.6pt]
+    (27.4,-22.3) rectangle (45.6,-34.9);
+
+  \node[rowlab, anchor=east] at (6.6,-25.6) {$\Phi(q)$};
+  \node[rowlab, anchor=east] at (6.6,-31.6) {$\Phi(a)$};
+
+  \node[hit]  at (10.9,-25.6) {12};  \node[hit]  at (16.5,-25.6) {7};
+  \node[hit]  at (22.1,-25.6) {4};
+  \node[miss] at (30.9,-25.6) {91};  \node[miss] at (36.5,-25.6) {3};
+  \node[miss] at (42.1,-25.6) {18};
+  \node[hit]  at (10.9,-31.6) {12};  \node[hit]  at (16.5,-31.6) {7};
+  \node[hit]  at (22.1,-31.6) {4};
+  \node[miss] at (30.9,-31.6) {45};  \node[miss] at (36.5,-31.6) {3};
+  \node[miss] at (42.1,-31.6) {2};
+
+  % two lines: a single-line legend is wider than a band and the two collide
+  \node[microk, anchor=north, align=center] at (16.5,-35.9)
+    {MATCH\\$\rightarrow$ CANDIDATE};
+  \node[micro,  anchor=north, align=center] at (36.5,-35.9)
+    {MISS\\$\rightarrow$ IGNORED};
+
+  \node[gl, anchor=south west, text width=43.4mm] at (2.4,\GY)
+    {Cells are a schematic signature. Ranking inside $\mathcal{C}$ is the exact
+     shared-leaf count $c$, not the hash.};
+\end{scope}
+
+% ===================== (c) grouped travel rows =====================
+\begin{scope}[shift={(\CX,0)}]
+  \node[eyeb, anchor=north west] at (2.4,-2.0) {03 $\cdot$ GROUPED};
+  \node[hd, anchor=north west]   at (2.4,-5.6) {Admitted $\mathcal{C}$, three travel rows};
+
+  \draw[black!65, line width=0.5pt, densely dashed, rounded corners=0.8pt]
+    (2.8,-12.6) rectangle (40.6,-43.8);
+  \node[micro, text=white, fill=black, inner xsep=1.1mm, inner ysep=0.7mm,
+        rounded corners=0.5pt, anchor=west] at (4.6,-12.6) {CANDIDATE SET $\mathcal{C}$};
+
+  % Sparkov mechanism seed (query 2656) and its top-2 leafmates inside C,
+  % rounded for print. Amount x hour only: merchant names are not in Phi.
+  \node[cardq] at (4.4,-14.6)
+    {{\sffamily\fontsize{5.2}{5.8}\selectfont\bfseries\color{labgray} q $\cdot$ QUERY $\cdot$ id 2656}\\[0.15mm]
+     {\sffamily\fontsize{6.6}{7.2}\selectfont\bfseries \$372 $\cdot$ 4.5\,h}\\[0.15mm]
+     {\sffamily\fontsize{5.4}{6.0}\selectfont\color{labgray} travel $\cdot$ amount $\times$ hour}};
+  \node[card] at (4.4,-24.4)
+    {{\sffamily\fontsize{5.2}{5.8}\selectfont\bfseries\color{labgray} a $\cdot$ LEAFMATE $\cdot$ id 4217}\\[0.15mm]
+     {\sffamily\fontsize{6.6}{7.2}\selectfont\bfseries \$352 $\cdot$ 2.2\,h}\\[0.15mm]
+     {\sffamily\fontsize{5.4}{6.0}\selectfont\color{labgray} travel $\cdot$ $c{=}93$}};
+  \node[card] at (4.4,-34.2)
+    {{\sffamily\fontsize{5.2}{5.8}\selectfont\bfseries\color{labgray} b $\cdot$ LEAFMATE $\cdot$ id 4219}\\[0.15mm]
+     {\sffamily\fontsize{6.6}{7.2}\selectfont\bfseries \$440 $\cdot$ 6.1\,h}\\[0.15mm]
+     {\sffamily\fontsize{5.4}{6.0}\selectfont\color{labgray} travel $\cdot$ $c{=}86$}};
+
+  \node[gl, anchor=south west, text width=38.2mm] at (2.4,\GY)
+    {In $\mathcal{C}$ via matching bands, not one shared bucket. No merchant name is in $\Phi$.};
+\end{scope}
+
+% ========================= (d) ranked lock =========================
+\begin{scope}[shift={(\DX,0)}]
+  \node[eyeb, anchor=north west] at (2.4,-2.0) {04 $\cdot$ LEAFMATE LOCK};
+  \node[hd, anchor=north west]   at (2.4,-5.6) {Filled $\mathcal{C}$; hollow missed};
+
+  % admitted + ranked
+  \draw[black!55, fill=fillbox, line width=0.4pt, rounded corners=0.8pt]
+    (2.8,-12.0) rectangle (39.4,-31.8);
+  \node[micro, anchor=north west] at (4.4,-13.0) {IN $\mathcal{C}$ $\cdot$ RANKED BY EXACT $c$};
+  % Bars are c scaled against the admitted maximum (93 -> 14.0mm); 111 is not
+  % drawn as a bar because it would run past the panel.
+  \foreach \yy/\bw/\cv in {-19.0/14.0/93, -24.0/12.9/86, -29.0/12.5/83}{%
+    \fill[black] (5.8,\yy) circle (1.1mm);
+    \fill[black!62] (7.8,\yy-0.75) rectangle (7.8+\bw,\yy+0.75);
+    \node[font=\fontsize{6.2}{7.0}\selectfont, anchor=west] at (23.0,\yy)
+      {$c{=}\cv$ $\cdot$ travel};}
+
+  % missed by banding
+  \draw[black!55, fill=white, line width=0.4pt, densely dashed, rounded corners=0.8pt]
+    (2.8,-34.4) rectangle (39.4,-44.0);
+  \node[micro, anchor=north west] at (4.4,-35.4) {NOT ADMITTED $\cdot$ 1 OF 4 MISSES};
+  \draw[black, line width=0.65pt, dash pattern=on 0.62mm off 0.42mm]
+    (5.8,-40.6) circle (1.35mm);
+  \node[font=\fontsize{6.2}{7.0}\selectfont, anchor=west, align=left] at (8.6,-40.6)
+    {$c{=}111$ $\cdot$ travel $\cdot$ exact rank 1\\banding did not admit it};
+
+  \node[gl, anchor=south west, text width=37.0mm] at (2.4,\GY)
+    {This seed has four hollow misses; the panel shows the loudest.};
+\end{scope}
+
+\end{tikzpicture}

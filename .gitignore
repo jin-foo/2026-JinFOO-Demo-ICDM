@@ -1,0 +1,22 @@
+# LaTeX build artefacts
+*.aux
+*.bbl
+*.bbl-SAVE-ERROR
+*.bcf
+*.blg
+*-blx.bib
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+
+# Compiled paper at repo root (Overleaf / latexmk rebuild this)
+/main.pdf
+/paper.pdf
+
+.DS_Store
+
