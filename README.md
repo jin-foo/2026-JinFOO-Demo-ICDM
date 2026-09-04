@@ -6,7 +6,9 @@ Demo paper for the [IEEE ICDM 2026 Demo Track](https://icdm2026.neu.edu.cn/Callf
 
 Isolation-kernel retrieval as an inspectable neighbourhood: a namespaced leaf set, path predicates, LSH candidates, and the exact neighbours banding missed, on public simulated spend tables ([Sparkov](https://github.com/namebrandon/Sparkov_Data_Generation), [TabFormer](https://github.com/IBM/TabFormer)).
 
-**Status:** submitted. This repository is the author LaTeX. It is not an IEEE-published version.
+**Status:** submitted. This repository is public for ICDM 2026 reviewers. It is the author LaTeX plus the packed booth explorer. It is not an IEEE-published version.
+
+Clone the repo, compile `main.tex`, or download [`demo/leafmates.html`](demo/leafmates.html) and open it in a browser (GitHub will not run the file).
 
 ## Compile
 
