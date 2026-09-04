@@ -22,9 +22,10 @@ Root file: `main.tex`. IEEE 2-column conference format, **4 pages including refe
 main.tex            # paper
 references.bib
 figures/            # Fig. 1 TikZ path, Fig. 2 schematic (+ generator), UI snapshot
+demo/leafmates.html # packed booth explorer (open locally; GitHub will not run it)
 ```
 
-The packed booth explorer is a separate, network-free HTML file. Open it locally; GitHub will not execute it. It is not stored in this repository.
+Packed explorer: [`demo/leafmates.html`](https://github.com/jin-foo/2026-JinFOO-Demo-ICDM/blob/main/demo/leafmates.html). Download and open in a browser.
 
 ## Licence
 

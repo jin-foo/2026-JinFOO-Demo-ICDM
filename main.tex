@@ -52,7 +52,8 @@
   callout/.style={
     circle, draw=black, fill=white, minimum size=5.0mm,
     inner sep=0pt, font=\sffamily\scriptsize\bfseries, line width=0.75pt
-  }
+  },
+  pinline/.style={black, line width=0.45pt, -{Stealth[length=1.5mm]}}
 }
 
 \begin{document}
@@ -97,6 +98,7 @@ Decision Predicate Graphs render an isolation forest as a \emph{global} graph of
 The system enables a visitor to: (i)~keep spend-category territories on screen while a dock steps through leaf set, MinHash, LSH, neighbour lock, and tree-prefix overlap; (ii)~read a leaf as a path of predicates and see who shares it; (iii)~compare LSH candidates, ranked by exact shared-leaf count, with the exact top-$8$ by the same order that banding missed; (iv)~read $P(\mathrm{same\ class}\mid\mathrm{shared\ leaves})$ as a measurement on the exported sample, with pair counts, rather than as an assertion. Hover is the join: the same leaf token lights the dock, territory co-members, an inspector row, and the curve.
 
 \section{System}
+\label{sec:system}
 
 We present \sys{}, an explorer that makes each stage of the \silk{} path inspectable (Fig.~\ref{fig:pipe}). Let $\Phi(x)=\{(j,\ell_j(x)):j=1,\ldots,t\}$ be the namespaced leaves of $x$ in a forest of $t$ trees. Every point occupies exactly one leaf per tree, so $|\Phi(x)|=t$ for every $x$. Write $c(x,y)=|\Phi(x)\cap\Phi(y)|$. The isolation-kernel fraction is $K=c/t$; Jaccard is $J=c/(2t-c)$. Because every set has size $t$, ranking by $c$, by $K$, and by $J$ coincide: the explorer reports shared-leaf counts and calls the order the exact Jaccard order. Isolation trees cut the feature plane; leafmates are the points those cuts failed to separate (Fig.~\ref{fig:tbi}).
 
@@ -105,7 +107,7 @@ Fig.~\ref{fig:pipe} is the inspectable path. (a)~A leaf is a path of axis-parall
 \begin{figure*}[t]
 \centering
 \input{figures/silk-path}
-\caption{\silk{} path the explorer makes inspectable. (a)~$\Phi(q)$ is $t{=}200$ namespaced leaves; a leaf is a path. (b)~A matching band of $r{=}3$ admits a candidate; a miss is ignored. (c)~Mechanism-seed travel rows in $\mathcal{C}$ (not one bucket), amount ${\times}$ hour, rounded; the Wow-path seed of Sec.~\ref{sec:demo}. (d)~Filled: $\mathcal{C}$ ranked by exact $c$; hollow: one of four $N^{\mathrm{exact}}_8\setminus\mathcal{C}$ misses. The packed explorer is a network-free HTML file; open it locally (GitHub will not execute it).}
+\caption{\silk{} path the explorer makes inspectable. (a)~$\Phi(q)$ is $t{=}200$ namespaced leaves; a leaf is a path. (b)~A matching band of $r{=}3$ admits a candidate; a miss is ignored. (c)~Mechanism-seed travel rows in $\mathcal{C}$ (not one bucket), amount ${\times}$ hour, rounded; the Wow-path seed of Sec.~\ref{sec:demo}. (d)~Filled: $\mathcal{C}$ ranked by exact $c$; hollow: one of four $N^{\mathrm{exact}}_8\setminus\mathcal{C}$ misses. Packed HTML (open locally): \href{https://github.com/jin-foo/2026-JinFOO-Demo-ICDM}{\texttt{github.com/jin-foo/2026-JinFOO-Demo-ICDM}}.}
 \label{fig:pipe}
 \end{figure*}
 
@@ -116,7 +118,7 @@ Fig.~\ref{fig:pipe} is the inspectable path. (a)~A leaf is a path of axis-parall
 \label{fig:tbi}
 \end{figure*}
 
-A Python exporter fits $t{=}200$ trees (max depth $16$, subsample $256$), $H{=}120$ MinHash functions, and $B{=}40$ bands of $r{=}3$ rows, then writes JSON (\texttt{schema} v4, \texttt{random\_state=42}): amount${}\times{}$hour coordinates, exact shared-leaf top-$8$, LSH candidate lists, missed exact neighbours, isolation paths as $(\mathrm{feature},\mathrm{op},\mathrm{value})$, and a pooled overlap histogram. The browser never fits a forest. Inspection is client-side on the packed HTML, which makes no network request. Download and open locally the file linked from Fig.~\ref{fig:pipe}; GitHub does not execute it. Hover is the linking operator among canvas, dock, inspector, and curve.
+A Python exporter fits $t{=}200$ trees (max depth $16$, subsample $256$), $H{=}120$ MinHash functions, and $B{=}40$ bands of $r{=}3$ rows, then writes JSON (\texttt{schema} v4, \texttt{random\_state=42}): amount${}\times{}$hour coordinates, exact shared-leaf top-$8$, LSH candidate lists, missed exact neighbours, isolation paths as $(\mathrm{feature},\mathrm{op},\mathrm{value})$, and a pooled overlap histogram. The browser never fits a forest. Inspection is client-side on the packed HTML, which makes no network request. The companion repository is \url{https://github.com/jin-foo/2026-JinFOO-Demo-ICDM} (\texttt{demo/leafmates.html}; download and open locally---GitHub does not execute it). Hover is the linking operator among canvas, dock, inspector, and curve.
 
 \section{Demonstration Scenario}
 \label{sec:demo}
@@ -131,15 +133,20 @@ The guided path uses the Sparkov \emph{mechanism} seed (travel; $78$ candidates,
 \centering
 \begin{tikzpicture}
 \node[inner sep=0] (ui) {\includegraphics[width=\linewidth]{figures/ui-annotated.png}};
-% Offsets are the measured 1920x1080 pixel positions of each target scaled by
-% 174.26mm / 1920px, so a reshoot only needs the pixel numbers re-read.
-% Lock-stage geometry: travel markers (258,626); dock ring (738,792);
-% predicate readout (1485,800); ranked list (1518,550); amp curve (1513,973).
-\node[callout] at ([xshift=23.4mm,yshift=-56.8mm]ui.north west) {1};
-\node[callout] at ([xshift=67.0mm,yshift=-71.9mm]ui.north west) {2};
-\node[callout] at ([xshift=136.6mm,yshift=-74.2mm]ui.north west) {3};
-\node[callout] at ([xshift=137.8mm,yshift=-49.9mm]ui.north west) {4};
-\node[callout] at ([xshift=137.3mm,yshift=-88.3mm]ui.north west) {5};
+% Offsets: callout circle (offset so it does not sit on the target) then a
+% short pin to the named object. Scale 174.26mm / 1920px.
+% Pins: markers (258,626); ring (738,792); predicate (1485,472);
+% list (1510,220); amp-read (1687,760).
+\node[callout] (c1) at ([xshift=14.0mm,yshift=-48.0mm]ui.north west) {1};
+\draw[pinline] (c1) -- ([xshift=23.4mm,yshift=-56.8mm]ui.north west);
+\node[callout] (c2) at ([xshift=54.0mm,yshift=-62.0mm]ui.north west) {2};
+\draw[pinline] (c2) -- ([xshift=67.0mm,yshift=-71.9mm]ui.north west);
+\node[callout] (c3) at ([xshift=124.0mm,yshift=-40.0mm]ui.north west) {3};
+\draw[pinline] (c3) -- ([xshift=136.2mm,yshift=-44.1mm]ui.north west);
+\node[callout] (c4) at ([xshift=124.0mm,yshift=-17.0mm]ui.north west) {4};
+\draw[pinline] (c4) -- ([xshift=137.0mm,yshift=-22.0mm]ui.north west);
+\node[callout] (c5) at ([xshift=124.0mm,yshift=-61.0mm]ui.north west) {5};
+\draw[pinline] (c5) -- ([xshift=153.1mm,yshift=-68.3mm]ui.north west);
 \end{tikzpicture}
 \caption{Snapshot of the explorer on Sparkov, mechanism seed, leafmate-lock stage, with leaf \texttt{T0:L69} hovered. (1)~Seed-class territory: query and ranked leafmates (filled) plus misses (hollow) lock on class. (2)~Dock: $24$ of $200$ leaves; the hovered leaf is marked. (3)~Path predicates for that leaf. (4)~Inspector: exact shared-leaf rank inside $\mathcal{C}$, and the four exact top-$8$ LSH missed. (5)~Overlap curve $P(\mathrm{same\ class}\mid\mathrm{shared\ leaves})$; pair counts are in the curve readout.}
 \label{fig:ui}
@@ -156,7 +163,7 @@ The guided path uses the Sparkov \emph{mechanism} seed (travel; $78$ candidates,
 
 \textbf{Step 4 (lock).} \emph{Does:} hover a filled or hollow marker. \emph{Learns:} filled markers are $\mathcal{C}$ ranked by exact shared-leaf count. Hollow markers are the exact top-$8$ by that order that banding did not admit---an overlay, not retrieved neighbours. Hover lights shared leaves and moves the curve readout.
 
-\textbf{Step 5 (overlap).} \emph{Does:} read the inspector curve and the tree-prefix dock. \emph{Learns:} ranking never uses labels. The curve is post-hoc association, $P(\mathrm{same\ class}\mid\mathrm{shared\ leaves})$, with pair counts because the high-overlap tail is thin. On this seed the global exact top-$8$ purity rises from $0$ with one tree to $0.875$ with $200$; the pooled tree-prefix curve on the sample barely moves, which is why the booth reports the measured overlap curve rather than a vote story.
+\textbf{Step 5 (overlap).} \emph{Does:} read the inspector curve and the tree-prefix dock. \emph{Learns:} ranking never uses labels. The curve is post-hoc association, $P(\mathrm{same\ class}\mid\mathrm{shared\ leaves})$, with pair counts because the high-overlap tail is thin. On this seed the exact top-$8$ purity rises from $0$ with one tree to $0.875$ with $200$; the pooled tree-prefix curve on the sample barely moves, which is why the booth reports the measured overlap curve rather than a vote story.
 
 The mixed grocery seed (purity $0.50$) is the honesty check: off-class leafmates in shopping and misc, no hollow misses, same dock and inspector. The pure travel seed (purity $1.00$, $23$ candidates, five misses) remains in the dropdown so a presenter can show a single-class neighbourhood without pretending it is typical. The 90-second booth path is Fig.~\ref{fig:pipe} then hover: a visitor should leave able to read a leaf as a path, a matching band, a filled candidate, and a hollow miss.
 
@@ -234,7 +241,7 @@ TabFormer~\cite{Padhi2021TabFormer} & 6\,000 & 5 & 12 & 0.23 & 452 & 0.998 \\
 
 \section{Data and ethics}
 
-Both corpora are simulated. The exported Sparkov~\cite{Harris2016Sparkov} sample has fourteen named spend categories; features are amount, hour, day-of-week, customer and merchant coordinates, city population, and gender. Isolation trees may split on gender because it is in the public schema; removing it would misrepresent what the forest saw, and when they split the explorer prints that predicate. TabFormer~\cite{Padhi2021TabFormer} contributes amount, hour, day-of-week, chip use, and errors; we roll merchant category code (MCC) into twelve groups. Person names, card numbers, merchant names, raw MCC, and fraud flags are dropped. Class is spend category. The explorer shows $6{,}000$ of $50{,}000$-row shards (\texttt{schema} v4, \texttt{random\_state=42}). No personal names, account numbers, or application identifiers appear. No human-subject study is reported. The client is static HTML with both artefacts embedded; it makes no network request.
+Both corpora are simulated: schema-matched samples in the Sparkov~\cite{Harris2016Sparkov} and TabFormer~\cite{Padhi2021TabFormer} layouts, not row draws from those public CSVs. The Sparkov shard has fourteen named spend categories; features are amount, hour, day-of-week, customer and merchant coordinates, city population, and gender. Isolation trees may split on gender because it is in the public schema; removing it would misrepresent what the forest saw, and when they split the explorer prints that predicate. TabFormer contributes amount, hour, day-of-week, chip use, and errors; we roll merchant category code (MCC) into twelve groups. Person names, card numbers, merchant names, raw MCC, and fraud flags are dropped. Class is spend category. The explorer shows $6{,}000$ of $50{,}000$-row shards (\texttt{schema} v4, \texttt{random\_state=42}). No personal names, account numbers, or application identifiers appear. No human-subject study is reported. The client is static HTML with both artefacts embedded; it makes no network request.
 
 \section{Conclusion}
 
